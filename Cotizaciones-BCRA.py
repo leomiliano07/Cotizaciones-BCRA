@@ -17,36 +17,37 @@ try:
         # La solicitud fue exitosa
         data = response.json()
 
-        # Extraer la fecha y los detalles de las cotizaciones
-        fecha = data['results']['fecha']
-        cotizaciones = data['results']['detalle']
+        # Verificar si 'results' y 'detalle' están en la respuesta
+        if 'results' in data and 'detalle' in data['results']:
+            # Extraer la fecha y los detalles de las cotizaciones
+            fecha = data['results'].get('fecha', None)
+            cotizaciones = data['results']['detalle']
 
-        # Crear un DataFrame de pandas
-        df = pd.DataFrame(cotizaciones)
+            # Crear un DataFrame de pandas
+            df = pd.DataFrame(cotizaciones)
 
-        # Añadir la columna de fecha
-        df['fecha'] = fecha
+            # Añadir la columna de fecha
+            df['FECHA'] = fecha
 
-        # Reordenar las columnas para que la fecha esté primero
-        df = df[['fecha', 'codigoMoneda', 'descripcion', 'tipoCotizacion']]
-        # df = df[['fecha', 'codigoMoneda', 'descripcion', 'tipoPase', 'tipoCotizacion']]
+            # Reordenar las columnas para que la fecha esté primero y poner los títulos en mayúsculas
+            df = df[['FECHA', 'codigoMoneda', 'descripcion', 'tipoCotizacion']]
+            df.columns = ['FECHA', 'CODIGO MONEDA', 'DESCRIPCION', 'COTIZACION']
 
-        print("DataFrame creado exitosamente. Primeras 5 filas:")
-        print(df.head())
-
-        print("\nInformación del DataFrame:")
-        print(df.info())
-
-        # Convertir la columna 'fecha' a tipo datetime
-        df['fecha'] = pd.to_datetime(df['fecha'])
+            # Convertir la columna 'FECHA' a tipo datetime si está presente
+            if fecha:
+                df['FECHA'] = pd.to_datetime(df['FECHA'])
+        else:
+            print("Error: No se encontraron los resultados esperados en la respuesta.")
+            df = pd.DataFrame()
 
     else:
         # La solicitud falló
         print(f"Error en la solicitud: {response.status_code}")
         print(response.text)
+        df = pd.DataFrame()
 
 except requests.exceptions.RequestException as e:
     print(f"Error al realizar la solicitud: {e}")
+    df = pd.DataFrame()
 
-print("\nADVERTENCIA: Esta solución desactiva la verificación SSL y no debe usarse en un entorno de producción sin entender los riesgos de seguridad asociados.")
 print(df)
