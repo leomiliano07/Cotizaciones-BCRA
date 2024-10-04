@@ -30,12 +30,13 @@ try:
             df['FECHA'] = fecha
 
             # Reordenar las columnas para que la fecha esté primero y poner los títulos en mayúsculas
-            df = df[['FECHA', 'codigoMoneda', 'descripcion', 'tipoCotizacion']]
-            df.columns = ['FECHA', 'CODIGO MONEDA', 'DESCRIPCION', 'COTIZACION']
+            df = df[['FECHA', 'codigoMoneda', 'tipoCotizacion']]
+            df.columns = ['FECHA', 'CÓDIGO MONEDA', 'COTIZACIÓN']
 
-            # Convertir la columna 'FECHA' a tipo datetime si está presente
-            if fecha:
-                df['FECHA'] = pd.to_datetime(df['FECHA'])
+            df['FECHA'] = pd.to_datetime(df['FECHA'])
+
+            # Filtrar para eliminar las filas donde 'CÓDIGO MONEDA' sea 'ARS'
+            df = df[df['CÓDIGO MONEDA'] != 'ARS']
         else:
             print("Error: No se encontraron los resultados esperados en la respuesta.")
             df = pd.DataFrame()
