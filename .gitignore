@@ -1,1 +1,8 @@
 /env/
+.env
+/.vscode/
+/logs/
+/.idea/
+Prueba Redshift.py
+__pycache__/
+BD/Basicos/

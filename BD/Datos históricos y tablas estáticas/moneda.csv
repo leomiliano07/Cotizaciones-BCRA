@@ -1,0 +1,37 @@
+id,codigo_moneda,nombre,simbolo
+1,AUD,Dólar Australiano,A$
+2,AWG,Florín Arubeño,ƒ
+3,BOB,Boliviano,Bs.
+4,BRL,Real Brasileño,R$
+5,CAD,Dólar Canadiense,C$
+6,CHF,Franco Suizo,CHF
+7,CLP,Peso Chileno,$
+8,CNH,Yuan Chino (Offshore),¥
+9,CNY,Yuan Chino,¥
+10,COP,Peso Colombiano,$
+11,CZK,Corona Checa,Kč
+12,DKK,Corona Danesa,kr
+13,EUR,Euro,€
+14,GBP,Libra Esterlina,£
+15,HKD,Dólar de Hong Kong,HK$
+16,ILS,Nuevo Shekel Israelí,₪
+17,INR,Rupia India,₹
+18,JPY,Yen Japonés,¥
+19,MXP,Peso Mexicano,$
+20,NIO,Córdoba Nicaragüense,C$
+21,NOK,Corona Noruega,kr
+22,NZD,Dólar Neozelandés,NZ$
+23,PEN,Sol Peruano,S/
+24,PYG,Guaraní Paraguayo,₲
+25,REF,Referencia,REF
+26,RSD,Dinar Serbio,РСД
+27,RUB,Rublo Ruso,₽
+28,SEK,Corona Sueca,kr
+29,SGD,Dólar de Singapur,S$
+30,TRY,Lira Turca,₺
+31,USD,Dólar Estadounidense,$
+32,UYU,Peso Uruguayo,$U
+33,VEB,Bolívar Venezolano,Bs.
+34,VND,Dong Vietnamita,₫
+35,XDR,Derechos Especiales de Giro,XDR
+36,ZAR,Rand Sudafricano,R

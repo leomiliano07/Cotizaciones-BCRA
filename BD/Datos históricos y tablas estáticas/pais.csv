@@ -1,0 +1,34 @@
+id,nombre,codigo_iso,region_id
+2,Aruba,AW,1
+4,Brasil,BR,2
+5,Canadá,CA,1
+7,Chile,CL,2
+9,Colombia,CO,2
+10,República Checa,CZ,3
+15,Israel,IL,4
+16,India,IN,4
+18,México,MX,1
+19,Nicaragua,NI,1
+22,Perú,PE,2
+23,Paraguay,PY,2
+24,Serbia,RS,3
+25,Rusia,RU,3
+27,Singapur,SG,4
+28,Turquía,TR,4
+29,Estados Unidos,US,1
+33,Sudáfrica,ZA,5
+1,Australia,AU,6
+3,Bolivia,BO,2
+6,Suiza,CH,3
+8,China,CN,4
+11,Dinamarca,DK,3
+12,Unión Europea,EU,3
+13,Reino Unido,GB,3
+14,Hong Kong,HK,4
+17,Japón,JP,4
+20,Noruega,NO,3
+21,Nueva Zelanda,NZ,6
+26,Suecia,SE,3
+30,Uruguay,UY,2
+31,Venezuela,VE,2
+32,Vietnam,VN,4
