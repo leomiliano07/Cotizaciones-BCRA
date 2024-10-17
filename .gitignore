@@ -6,3 +6,4 @@
 Prueba Redshift.py
 __pycache__/
 BD/Basicos/
+.pytest_cache

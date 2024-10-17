@@ -2,7 +2,14 @@ import requests
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 import pandas as pd
 import psycopg2
-from airflow.hooks.base_hook import BaseHook
+try:
+    from airflow.hooks.base_hook import BaseHook
+except ImportError:
+    class BaseHook:
+        @staticmethod
+        def get_connection(conn_id):
+            # Retorna un objeto simulado si Airflow no está disponible para los test locales
+            return Mock()
 from datetime import datetime, timedelta
 
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
@@ -56,11 +63,11 @@ def extract_data():
     # Obtiene la fecha actual
     end_date = datetime.now()
 
-    # Asegura que todo sea formato fecha
+    # Todo en formato fecha
     start_date = start_date.date() if isinstance(start_date, datetime) else start_date
     end_date = end_date.date()
 
-    # Inicializa la lista para almacenar datos acumulados
+
     accumulated_data = []
 
     # Realiza solicitudes para cada día faltante
