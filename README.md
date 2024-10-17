@@ -3,3 +3,5 @@ Script que copia en una base de datos en Amazon Redshift las cotizaciones de tod
 
 Creacion de tablas y datos historicos
 Airflow connections
+Test
+Github actions
