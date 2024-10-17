@@ -35,8 +35,33 @@ jobs:
         with:
           node-version: '20'
 
+      - name: Check for package.json
+        id: check_package_json
+        run: |
+          if [ -f "package.json" ]; then
+            echo "exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "exists=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Check for package-lock.json
+        id: check_package_lock
+        run: |
+          if [ -f "package-lock.json" ]; then
+            echo "exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "exists=false" >> $GITHUB_OUTPUT
+          fi
+
       - name: Install Node.js dependencies
-        run: npm ci
+        if: steps.check_package_json.outputs.exists == 'true'
+        run: |
+          if [ "${{ steps.check_package_lock.outputs.exists }}" == "true" ]; then
+            npm ci
+          else
+            npm install
+          fi
 
       - name: Run Node.js tests
+        if: steps.check_package_json.outputs.exists == 'true'
         run: npm test
