@@ -27,7 +27,7 @@ default_args = {
 with DAG(dag_id='dag_cotizaciones_bcra',
          default_args=default_args,
          schedule_interval='@daily',
-         catchup=False) as dag:
+         catchup=True) as dag:
 
     # Extrae
     extract_task = PythonOperator(

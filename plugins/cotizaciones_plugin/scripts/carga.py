@@ -25,7 +25,7 @@ def load_to_redshift(df, redshift_host, redshift_port, redshift_database, redshi
                 VALUES (%s, %s, %s)
             """).format(sql.Identifier(redshift_schema), sql.Identifier(redshift_tabla))
 
-            # Insertar los datos del DataFrame en la tabla
+            # Inserta los datos del DataFrame en la tabla
             for index, row in df.iterrows():
                 cur.execute(insert_query, (row['FECHA'], row['CÓDIGO MONEDA'], row['COTIZACIÓN']))
 
