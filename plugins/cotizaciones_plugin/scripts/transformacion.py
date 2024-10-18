@@ -38,4 +38,3 @@ def transform_data(accumulated_data):
     else:
         print("Error: No se encontraron datos para transformar.")
         return None
-

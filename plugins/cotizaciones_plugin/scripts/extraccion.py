@@ -1,7 +1,7 @@
 import requests
-from requests.packages.urllib3.exceptions import InsecureRequestWarning
 import pandas as pd
 import psycopg2
+import logging
 try:
     from airflow.hooks.base_hook import BaseHook
 except ImportError:
@@ -12,7 +12,8 @@ except ImportError:
             return Mock()
 from datetime import datetime, timedelta
 
-requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
+# Configuración básica del logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 url = "https://api.bcra.gob.ar/estadisticascambiarias/v1.0/Cotizaciones"
 
@@ -36,15 +37,15 @@ def get_last_loaded_date(redshift_host, redshift_port, redshift_database, redshi
         cur.execute(query)
         last_date = cur.fetchone()[0]
         cur.close()
+        logging.info(f"Última fecha cargada recuperada: {last_date}")
     except Exception as e:
-        print(f"Error al consultar la última fecha cargada en Redshift: {e}")
+        logging.error(f"Error al consultar la última fecha cargada en Redshift: {e}")
     finally:
         if conn:
             conn.close()
     return last_date
 
 def extract_data():
-    
     connection = BaseHook.get_connection("Redshift")
     redshift_host = connection.host
     redshift_port = connection.port
@@ -57,8 +58,10 @@ def extract_data():
     # Define la fecha de inicio para la extracción
     if last_loaded_date:
         start_date = last_loaded_date + timedelta(days=1)
+        logging.info(f"Fecha de inicio para la extracción: {start_date}")
     else:
         start_date = datetime(2024, 10, 10)
+        logging.info(f"No se encontró fecha previa, usando {start_date} como fecha de inicio.")
 
     # Obtiene la fecha actual
     end_date = datetime.now()
@@ -67,6 +70,7 @@ def extract_data():
     start_date = start_date.date() if isinstance(start_date, datetime) else start_date
     end_date = end_date.date()
 
+    logging.info(f"Fecha de fin para la extracción: {end_date}")
 
     accumulated_data = []
 
@@ -80,12 +84,17 @@ def extract_data():
             data = response.json()
             if 'results' in data:
                 accumulated_data.append(data['results'])
+                logging.info(f"Datos extraídos para la fecha {formatted_date}.")
             else:
-                print(f"No se encontraron resultados para la fecha {formatted_date}.")
+                logging.warning(f"No se encontraron resultados para la fecha {formatted_date}.")
         else:
-            print(f"Error en la solicitud para la fecha {formatted_date}: {response.status_code} - {response.text}")
+            logging.error(f"Error en la solicitud para la fecha {formatted_date}: {response.status_code} - {response.text}")
 
         current_date += timedelta(days=1)
 
-    return accumulated_data if accumulated_data else None  # Devuelve todos los resultados acumulados
+    if accumulated_data:
+        logging.info("Extracción completada con éxito.")
+    else:
+        logging.warning("No se extrajeron datos.")
 
+    return accumulated_data if accumulated_data else None  # Devuelve todos los resultados acumulados
