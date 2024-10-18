@@ -33,4 +33,3 @@ def test_extract_data(mock_get_last_loaded_date, mock_get, mock_get_connection):
     assert isinstance(result[0], list) and len(result[0]) > 0, "El primer elemento debería ser una lista con elementos."
     assert 'cotizacion' in result[0][0], "El primer elemento debería tener la clave 'cotizacion'."
     assert result[0][0]['cotizacion'] == 340, "La cotización no coincide."
-
