@@ -49,6 +49,7 @@ El proyecto tiene la siguiente estructura de directorios:
     ├── .gitignore
     ├── BD.png
     ├── Creación cotizaciones.py
+    ├── Dash cotizaciones.py   
     ├── docker-compose.yaml
     ├── Dockerfile
     ├── pytest.ini
@@ -157,3 +158,11 @@ Guardar y luego despausar y ejecutar el DAG.
 - `test_extract.py`:  prueba unitaria que simula la extracción de datos de la API de cotizaciones y verifica que la función extract_data retorne una lista con datos correctamente estructurados, incluyendo la cotización esperada.
 - `test_transform.py`:  conjunto de pruebas que evalúa la función transform_data, asegurándose de que los datos se filtren, transformen y estructuren adecuadamente, manejando entradas vacías o incompletas.
 - `test_load.py`:  simula la carga de datos a Redshift usando un DataFrame, y mockea la conexión a la base de datos con psycopg2 para evitar cambios reales, verificando que la función load_to_redshift funcione correctamente.
+
+## Dash
+
+Se incluye el script Dash cotizaciones.py, el cual genera un gráfico interactivo con la evolución diaria de cada moneda, a partir de la información almacenada en la base de datos.
+
+Luego de ejecutar el script, abrir un navegador web y visitar http://127.0.0.1:8050/ para ver el gráfico.
+
+Es necesario haber generado y cargado la tabla moneda en Redshift.
