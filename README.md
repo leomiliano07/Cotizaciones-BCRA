@@ -156,7 +156,9 @@ Port:
 
 (Estos últimos campos se deben completar con las mismas credenciales que en el archivo .env)
 ```
-Guardar y luego despausar y ejecutar el DAG.
+Guardar y reiniciar Airflow.
+
+Luego reingresar, despausar y ejecutar el DAG.
 
 ## Descripción Scripts ETL
 
