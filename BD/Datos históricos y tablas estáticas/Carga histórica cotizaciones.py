@@ -11,27 +11,23 @@ import time
 # Desactivar las advertencias de solicitudes inseguras
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
-# Cargar variables de entorno desde el archivo .env
 load_dotenv()
 
-# Parámetros de conexión a Redshift desde el archivo .env
 redshift_host = os.getenv("REDSHIFT_HOST")
 redshift_port = os.getenv("REDSHIFT_PORT")
 redshift_database = os.getenv("REDSHIFT_DATABASE")
 redshift_user = os.getenv("REDSHIFT_USER")
 redshift_password = os.getenv("REDSHIFT_PASSWORD")
 
-# URL de la API
 url = "https://api.bcra.gob.ar/estadisticascambiarias/v1.0/Cotizaciones"
 
 # Fechas de inicio y fin
 start_date = "2024-01-01"
 end_date = datetime.now().strftime("%Y-%m-%d")
 
-# Inicializar un DataFrame vacío para almacenar los datos de un mes
 monthly_data = pd.DataFrame()
 
-# Convertir las fechas a tipo datetime
+# Fechas a tipo datetime
 current_date = pd.to_datetime(start_date)
 end_date = pd.to_datetime(end_date)
 
@@ -96,7 +92,7 @@ while current_date <= end_date:
         # Si hay datos del mes, subirlos a Redshift
         if not monthly_data.empty:
             try:
-                # Conexión a Redshift
+                
                 conn = get_redshift_connection()
 
                 # Verificar si ya existen datos para las fechas

@@ -1,5 +1,5 @@
 import requests
-import pandas as pd
+from requests.packages.urllib3.exceptions import InsecureRequestWarning # type: ignore
 import psycopg2
 import logging
 try:
@@ -11,6 +11,9 @@ except ImportError:
             # Retorna un objeto simulado si Airflow no está disponible para los test locales
             return Mock()
 from datetime import datetime, timedelta
+
+# Desactivar las advertencias de solicitudes inseguras
+requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
 # Configuración básica del logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
