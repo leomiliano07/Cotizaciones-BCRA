@@ -83,14 +83,26 @@ El proyecto tiene la siguiente estructura de directorios:
     * Docker
 - Usuario de AWS Redshift
 
-#### 2. Clonar repositorio
+#### 2. Crear entorno de trabajo y activarlo
+
+
+#### 3. Clonar repositorio
 
 ```bash
 git clone https://github.com/leomiliano07/Cotizaciones-BCRA.git
 cd Cotizaciones-BCRA  
 ```
 
-#### 3. Configurar variables de entorno
+#### 4. Instalar dependencias
+
+```bash
+pip install -r requirements.txt
+pip install psycopg2==2.9.10
+pip install dash==2.18.1
+```
+
+
+#### 5. Configurar variables de entorno
 Cargarlas en un archivo `.env`:
 
 ```bash
@@ -108,18 +120,18 @@ REDSHIFT_SCHEMA=
 #Paht
 PYTHONPATH=
 ```
-#### 4. Crear tabla cotizaciones:
+#### 6. Crear tabla cotizaciones:
 
 A través del script Creación cotizaciones.py se crea la tabla cotizaciones (fact table) en Redshift, la cual recibirá la ingesta de la API.
 
 Opcionalmente en el directorio BD se encuentran los csv, query y script para realizar la creación y carga del resto de las tablas dimensionales como también la carga historica de cotizaciones desde la API.
 
-#### 5. Inicia los contenedores de Docker:
+#### 7. Inicia los contenedores de Docker:
 
 ```bash
 docker-compose up -d
 ```
-#### 6. Acceder a Airflow UI
+#### 8. Acceder a Airflow UI
 
 Link:
 http://localhost:8080
@@ -130,7 +142,7 @@ contraseña: airflow
 ```
 
 
-#### 7. Modificar Connections en Airflow UI y ejecutar DAG
+#### 9. Modificar Connections en Airflow UI y ejecutar DAG
 
 Ingresar en el UI a Admin -> Connections, agregar una nueva y completar los siguientes campos:
 ```bash
