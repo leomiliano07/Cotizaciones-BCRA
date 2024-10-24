@@ -48,8 +48,8 @@ El proyecto tiene la siguiente estructura de directorios:
     │   └── test_transform.py
     ├── .gitignore
     ├── BD.png
-    ├── Creación cotizaciones.py
-    ├── Dash cotizaciones.py   
+    ├── Creacion_cotizaciones.py
+    ├── Dash_cotizaciones.py   
     ├── docker-compose.yaml
     ├── Dockerfile
     ├── pytest.ini
@@ -83,8 +83,37 @@ El proyecto tiene la siguiente estructura de directorios:
     * Docker
 - Usuario de AWS Redshift
 
-#### 2. Crear entorno de trabajo y activarlo
+#### 2. Crear entorno de trabajo, activarlo y verificar que está activo
 
+```bash
+# Navegar a tu directorio de trabajo
+cd ruta/a/tu/directorio
+
+# Crear el entorno virtual
+python -m venv entorno_virtual
+
+# Activar el entorno virtual
+# En Windows
+entorno_virtual\Scripts\activate
+
+# En macOS y Linux
+source entorno_virtual/bin/activate
+```
+Verifica que el nombre del entorno aparece entre paréntesis al inicio de la línea de comandos:
+
+```bash
+(entorno_virtual) $
+```
+Confirma que estás usando el Python del entorno virtual ejecutando:
+
+```bash
+which python
+```
+En Windows:
+```bash
+where python
+```
+La salida debe mostrar una ruta que incluya el nombre de tu entorno virtual.
 
 #### 3. Clonar repositorio
 
@@ -122,7 +151,7 @@ PYTHONPATH=
 ```
 #### 6. Crear tabla cotizaciones:
 
-A través del script Creación cotizaciones.py se crea la tabla cotizaciones (fact table) en Redshift, la cual recibirá la ingesta de la API.
+A través del script Creacion_cotizaciones.py se crea la tabla cotizaciones (fact table) en Redshift, la cual recibirá la ingesta de la API.
 
 Opcionalmente en el directorio BD se encuentran los csv, query y script para realizar la creación y carga del resto de las tablas dimensionales como también la carga historica de cotizaciones desde la API.
 
@@ -175,7 +204,7 @@ Luego reingresar, despausar y ejecutar el DAG.
 
 ## Dash
 
-Se incluye el script Dash cotizaciones.py, el cual genera un gráfico interactivo con la evolución diaria de cada moneda, a partir de la información almacenada en la base de datos.
+Se incluye el script Dash_cotizaciones.py, el cual genera un gráfico interactivo con la evolución diaria de cada moneda, a partir de la información almacenada en la base de datos.
 
 Luego de ejecutar el script, abrir un navegador web y visitar http://127.0.0.1:8050/ para ver el gráfico.
 

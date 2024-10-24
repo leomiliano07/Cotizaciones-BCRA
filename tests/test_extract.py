@@ -1,5 +1,9 @@
-from unittest.mock import Mock, patch
+from unittest.mock import Mock, patch, MagicMock
 from datetime import datetime
+import sys
+# Simula las dependencias de Airflow
+sys.modules['airflow'] = MagicMock()
+sys.modules['airflow.hooks.base_hook'] = MagicMock()
 from plugins.cotizaciones_plugin.scripts.extraccion import extract_data
 
 @patch('plugins.cotizaciones_plugin.scripts.extraccion.BaseHook.get_connection')

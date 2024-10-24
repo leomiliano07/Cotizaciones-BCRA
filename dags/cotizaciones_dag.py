@@ -2,18 +2,9 @@ from airflow import DAG
 from airflow.operators.python import PythonOperator
 from datetime import datetime
 from airflow.hooks.base_hook import BaseHook
-
 from cotizaciones_plugin.scripts.extraccion import extract_data
 from cotizaciones_plugin.scripts.transformacion import transform_data
 from cotizaciones_plugin.scripts.carga import load_to_redshift
-
-connection = BaseHook.get_connection("Redshift")
- 
-redshift_host = connection.host
-redshift_port = connection.port
-redshift_database = connection.schema
-redshift_user = connection.login
-redshift_password = connection.password
 
 redshift_schema = '2024_leonardo_ezequiel_miliano_schema'
 redshift_tabla = 'cotizaciones'
@@ -23,6 +14,16 @@ default_args = {
     'start_date': datetime(2024, 10, 10),
     'retries': 1,
 }
+
+def get_redshift_connection():
+    connection = BaseHook.get_connection("Redshift")
+    return {
+        'host': connection.host,
+        'port': connection.port,
+        'database': connection.schema,
+        'user': connection.login,
+        'password': connection.password
+    }
 
 with DAG(dag_id='dag_cotizaciones_bcra',
          default_args=default_args,
@@ -48,7 +49,16 @@ with DAG(dag_id='dag_cotizaciones_bcra',
     # Carga en Redshift
     def load_task_callable(**kwargs):
         df = kwargs['ti'].xcom_pull(task_ids='transform_data')
-        load_to_redshift(df, redshift_host, redshift_port, redshift_database, redshift_user, redshift_password, redshift_schema, redshift_tabla)
+        redshift_conn = get_redshift_connection()
+        
+        load_to_redshift(df, 
+                         redshift_conn['host'], 
+                         redshift_conn['port'], 
+                         redshift_conn['database'], 
+                         redshift_conn['user'], 
+                         redshift_conn['password'], 
+                         redshift_schema, 
+                         redshift_tabla)
 
     load_task = PythonOperator(
         task_id='load_to_redshift',

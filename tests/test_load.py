@@ -1,6 +1,10 @@
 import unittest
-from unittest.mock import patch
+from unittest.mock import patch, MagicMock
 import pandas as pd
+import sys
+# Simula las dependencias de Airflow
+sys.modules['airflow'] = MagicMock()
+sys.modules['airflow.hooks.base_hook'] = MagicMock()
 from plugins.cotizaciones_plugin.scripts.carga import load_to_redshift
 
 class TestLoad(unittest.TestCase):

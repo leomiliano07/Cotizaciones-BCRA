@@ -2,14 +2,7 @@ import requests
 from requests.packages.urllib3.exceptions import InsecureRequestWarning # type: ignore
 import psycopg2
 import logging
-try:
-    from airflow.hooks.base_hook import BaseHook
-except ImportError:
-    class BaseHook:
-        @staticmethod
-        def get_connection(conn_id):
-            # Retorna un objeto simulado si Airflow no está disponible para los test locales
-            return Mock()
+from airflow.hooks.base_hook import BaseHook
 from datetime import datetime, timedelta
 
 # Desactivar las advertencias de solicitudes inseguras
@@ -23,29 +16,29 @@ url = "https://api.bcra.gob.ar/estadisticascambiarias/v1.0/Cotizaciones"
 def get_last_loaded_date(redshift_host, redshift_port, redshift_database, redshift_user, redshift_password, redshift_schema, redshift_tabla):
     conn = None
     last_date = None
-    try:
-        conn = psycopg2.connect(
-            host=redshift_host,
-            port=redshift_port,
-            database=redshift_database,
-            user=redshift_user,
-            password=redshift_password
-        )
-        cur = conn.cursor()
+    
+    # Conectar a Redshift
+    conn = psycopg2.connect(
+        host=redshift_host,
+        port=redshift_port,
+        database=redshift_database,
+        user=redshift_user,
+        password=redshift_password
+    )
+    cur = conn.cursor()
+    
+    # Consulta la última fecha cargada
+    query = f"""
+        SELECT MAX(FECHA) FROM "{redshift_schema}"."{redshift_tabla}"
+    """
+    cur.execute(query)
+    last_date = cur.fetchone()[0]
+    cur.close()
+    logging.info(f"Última fecha cargada recuperada: {last_date}")
+    
+    if conn:
+        conn.close()
         
-        # Consulta la última fecha cargada
-        query = f"""
-            SELECT MAX(FECHA) FROM "{redshift_schema}"."{redshift_tabla}"
-        """
-        cur.execute(query)
-        last_date = cur.fetchone()[0]
-        cur.close()
-        logging.info(f"Última fecha cargada recuperada: {last_date}")
-    except Exception as e:
-        logging.error(f"Error al consultar la última fecha cargada en Redshift: {e}")
-    finally:
-        if conn:
-            conn.close()
     return last_date
 
 def extract_data():
