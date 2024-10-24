@@ -5,7 +5,7 @@ except ImportError:
         # Stub vacío para evitar la dependencia de Airflow
         pass
 
-from .scripts import extraccion, transformacion, carga
+from cotizaciones_plugin.scripts import extraccion, transformacion, carga
 
 class CotizacionesPlugin(AirflowPlugin):
     name = "cotizaciones_plugin"

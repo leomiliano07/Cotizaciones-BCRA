@@ -1,4 +1,9 @@
 import unittest
+from unittest.mock import MagicMock
+import sys
+# Simula las dependencias de Airflow
+sys.modules['airflow'] = MagicMock()
+sys.modules['airflow.hooks.base_hook'] = MagicMock()
 from plugins.cotizaciones_plugin.scripts.transformacion import transform_data
 
 class TestTransformation(unittest.TestCase):
